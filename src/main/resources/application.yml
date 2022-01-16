@@ -1,6 +1,43 @@
+# Spring Application에 접근하기 전에 yml 파일을 먼저 읽고 접근하게 된다.
+
+server:
+  port: 8000
+  servlet:
+    context-path: /blog
+#   기본 경로를 /blog로 잡겠다는 의미
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/    # Controller가 return할 때 앞에 붙여줄 경로명
+      suffix: .jsp                            # Controller가 return할 때 뒤에 붙여줄 경로명
+      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: cos
     password: 1234
+    
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create  
+      # table을 새로 만들겠다는 의미(프로젝트를 실행할 때 마다) 
+      # 기존에 table이 있으면 drop하기 때문에 최초에만 create로 해야 한다.
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        # Entity를 만들 때 변수명 그대로 DB의 field를 만들라는 명령어
+        # org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy를 사용할 경우 nn_name 방식으로 생성
+      use-new-id-generator-mappings: false
+      # false로 하면 JPA가 가진 기본 넘버링 전략을 따라가지 않겠다는 의미
+    show-sql: true  # console 창에 쿼리문을 보겠다는 의미
+    properties:
+      hibernate.format_sql: true  # 쿼리문을 정렬하는 명령어 
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
