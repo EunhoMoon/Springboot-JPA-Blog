@@ -39,6 +39,7 @@ public class DummyControllerTest {
 		
 		// 요청 = 웹 브라우저 / user 객체 = Java Object 
 		// 웹 브라우저가 이해할 수 있는 데이터로 변환(json)
+		// 스프링 부트 = MessageConverter가 응답시에 자동으로 작동(자바 오브젝트를 리턴하게 될 경우 Jackson 라이브러리를 호출해서 json으로 변환 후 브라우저에 응담)
 		return user;
 	}
 
