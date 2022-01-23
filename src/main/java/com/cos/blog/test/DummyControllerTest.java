@@ -6,10 +6,12 @@ import java.util.function.Supplier;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,18 @@ public class DummyControllerTest {
 	
 	@Autowired	// DummyControllerTest가 메모리에 뜰 때 @Autowired로 연결된 객체도 같이 뜬다.(의존성 주입)
 	private UserRepository userRepository;
+	
+	@DeleteMapping("/dummy/user/{id}")
+	public String deleteUser(@PathVariable int id) {
+		try {
+			userRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {	// 그냥 Exception으로 해도 된다.(최고 부모 객체이기 때문)
+			return "DB에 해당 ID가 존재하지 않아 삭제에 실패하였습니다.";
+		}
+		// 삭제할 데이터가 없을 경우가 있기 때문에 try-catch문 안에서 실행한다.
+		
+		return "User ID : " + id + "가 삭제 되었습니다.";
+	}
 	
 	// save 함수는 id를 전달하지 않으면 insert를 해주고, id를 전달했을 때 해당 id가 있으면 update, 없으면 insert를 해준다.
 	@Transactional
@@ -44,7 +58,8 @@ public class DummyControllerTest {
 		// null 값이 들어가지 않도록 id를 이용해 데이터를 담아와서 변경한다.(null 값이 없는 꽉 찬 데이터)
 		
 		//	userRepository.save(user);		// 업데이트 할 때는 save를 잘 사용하지 않는다.(null 값이 들어갈 수 있기 때문)
-		// 더티 체킹 : 
+		// 더티 체킹 :  찌꺼기 데이터를 체크해서 날려버리는 것 -> 변경을 감지하는 것(Transaction 등)
+		// return user;
 		return "업데이트에 성공했습니다.";
 	}
 	
