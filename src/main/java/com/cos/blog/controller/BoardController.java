@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cos.blog.service.BoardService;
 
@@ -23,6 +24,12 @@ public class BoardController {
 		
 		return "index";	
 		// viewResolver 작동 = 해당 index 페이지로 Model의 정보를 들고 이동한다.
+	}
+	
+	@GetMapping("/board/{id}")
+	public String findById(@PathVariable int id, Model model) {
+		model.addAttribute("board", boardService.boardView(id));
+		return "board/view";
 	}
 	
 	// USER 권한이 필요
