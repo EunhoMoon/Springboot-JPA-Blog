@@ -22,15 +22,8 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	@Transactional	// 전체가 성공해야 commit
-	public int joinUser(User user) {
-		try {
-			userRepository.save(user);
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("UserService : joinUser : " + e.getMessage());
-		}
-		return -1;
+	public void joinUser(User user) {
+		userRepository.save(user);
 	}
 	
 }

@@ -22,9 +22,9 @@ public class UserApiController {
 		System.out.println("UserApiController : save 호출됨");
 		// 실제로 DB에 insert 후 리턴
 		user.setRole(RoleType.USER);
-		int result = userService.joinUser(user);
+		userService.joinUser(user);
 		
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
 }
