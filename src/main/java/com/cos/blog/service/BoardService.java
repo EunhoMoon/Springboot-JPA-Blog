@@ -30,11 +30,17 @@ public class BoardService {
 		return boardRepository.findAll(pageable);
 	}
 	
+	@Transactional
 	public Board boardView(int id) {
 		return boardRepository.findById(id)
 				.orElseThrow(()->{
 					return new IllegalArgumentException("글 상세보기 실패 : 해당 글을 찾을 수 없습니다.");
 				});
+	}
+	
+	@Transactional
+	public void deleteById(int id) {
+		boardRepository.deleteById(id);
 	}
 	
 }
