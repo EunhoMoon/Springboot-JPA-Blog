@@ -3,7 +3,7 @@
 server:
   port: 8000
   servlet:
-    context-path: /blog
+    context-path: /
 #   기본 경로를 /blog로 잡겠다는 의미
     encoding:
       charset: UTF-8
@@ -14,7 +14,7 @@ spring:
   mvc:
     view:
       prefix: /WEB-INF/views/    # Controller가 return할 때 앞에 붙여줄 경로명
-      suffix: .jsp                            # Controller가 return할 때 뒤에 붙여줄 경로명
+      suffix: .jsp               # Controller가 return할 때 뒤에 붙여줄 경로명
       
   datasource:
     # MariaDB
@@ -27,7 +27,7 @@ spring:
     password: 1234
     
   jpa:
-    open-in-view: true
+    open-in-view: true  # Lazy Loading을 수행할 수 있게 한다.(default)
     hibernate:
       ddl-auto: update  
       # table을 새로 만들겠다는 의미(프로젝트를 실행할 때 마다) 

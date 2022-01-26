@@ -4,22 +4,23 @@
 <!-- 상대경로로 잡아야 찾을 수 있다. -->
 
 <div class="container">
-	<form action="/action_page.php">
+	<form action="/auth/loginProc" method="post">
 		<div class="form-group">
-			<label for="username">Username:</label> <input type="text" class="form-control" placeholder="Enter username" id="username">
+			<label for="username">Username:</label> 
+			<input type="text" name="username" class="form-control" placeholder="Enter username" id="username">
 		</div>
 		<div class="form-group">
-			<label for="password">Password:</label> <input type="password" class="form-control" placeholder="Enter password" id="password">
+			<label for="password">Password:</label> 
+			<input type="password" name="password" class="form-control" placeholder="Enter password" id="password">
 		</div>
-		
-		<div class="form-group form-check">
-			<label class="form-check-label"> <input class="form-check-input" type="checkbox"> Remember me
-			</label>
-		</div>
-		<button type="submit" class="btn btn-primary">Login</button>
+
+		<button id="btn-login" class="btn btn-primary">Login</button>
 	</form>
 </div>
 
+<!--  
+<script src="/js/user.js"></script>
+-->
 <%@ include file="../layout/footer.jsp"%>
 
 
