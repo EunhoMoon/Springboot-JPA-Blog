@@ -1,0 +1,19 @@
+카카오 로그인 API
+ - key : 5bf011f8849310c1181d90f413eb0195
+ - callback 주소 : http://localhost:8000/auth/kakao/callback
+ - 로그인 요청 주소(GET) : https://kauth.kakao.com/oauth/authorize?client_id=5bf011f8849310c1181d90f413eb0195&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code
+ - 토큰 발급 요청 주소(POST) : https://kauth.kakao.com/oauth/token
+ 	-> 헤더 값 : application/x-www-form-urlencoded;charset=utf-8
+ 	-> http body에 데이터를 전달(5가지 데이터를 담아)
+ 		1) grant_type = authorization_code
+ 		2) client_id = 5bf011f8849310c1181d90f413eb0195
+ 		3) redirect_uri = http://localhost:8000/auth/kakao/callback
+ 		4) code = {동적임}
+ 		5) client_secret = {필수 아님}
+ - 토큰을 통한 사용자 정보 조회(POST)
+ 	요청 주소 : https://kapi.kakao.com//v2/user/me
+ 	헤더 값 : 
+ 		Authorization: Bearer {ACCESS_TOKEN}
+		Content-type: application/x-www-form-urlencoded;charset=utf-8
+ 
+ - 카카오로 부터 받을 정보 : profile정보(필수), email(선택)

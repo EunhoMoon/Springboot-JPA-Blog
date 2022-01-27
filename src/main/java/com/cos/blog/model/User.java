@@ -34,7 +34,7 @@ public class User {
 	// 프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.(DB 프로그램에 따른다는 의미)
 	private int id;		//	시퀀스, auto_increment
 	
-	@Column(nullable = false, length = 30, unique = true)	// not null, 글자 수 제한, unique
+	@Column(nullable = false, length = 100, unique = true)	// not null, 글자 수 제한, unique
 	private String username;		// 아이디
 	
 	@Column(nullable = false, length = 100)	
@@ -50,6 +50,8 @@ public class User {
 	private RoleType role;	
 	// ADMIN, USER 등 회원 권한 지정
 	// Enum을 쓰는게 좋다.(데이터의 Domain을 만들어 줄 수 있기 때문 - String은 잘못된 값이 입력될 수 있다.)
+	
+	private String oauth;	// kakao, google ...
 	
 	@CreationTimestamp	// table에 insert될 때 시간 자동으로 입력(date now())
 	private Timestamp createDate;
