@@ -13,9 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,7 +59,9 @@ public class Board {
 	// mappedBy : 연관관계의 주인이 아니다.(FK가 아니다.) 따라서 table에 컬럼을 따로 만들지 말라는 뜻
 	// board를 select할 대 Join을 해서 데이터를 얻기 위해 존재하는 객체
 	// board = Reply에 있는 객체 명(private Board board)
-	private List<Reply> reply;	// 하나의 게시글에는 여러 개의 댓글을 포함하고 있다.
+	@JsonIgnoreProperties({"board", "user"})	// 호출된 reply에서 다시 board를 호출하지 않게 한다.(무한참조 방지)
+	@OrderBy("createDate desc")
+	private List<Reply> replys;	// 하나의 게시글에는 여러 개의 댓글을 포함하고 있다.
 	
 	@CreationTimestamp
 	private Timestamp createDate;
