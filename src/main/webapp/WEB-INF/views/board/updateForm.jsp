@@ -6,21 +6,21 @@
 <div class="container">
 
 	<form>
+		<input type="hidden" id="id" value="${board.id}" />
 		<div class="form-group">
-			<input type="text" class="form-control" placeholder="Enter title" id="title">
+			<input type="text" class="form-control" placeholder="Enter title" id="title" value="${board.title}">
 		</div>
 
 		<div class="form-group">
-			<textarea class="form-control summernote" rows="5" id="content"></textarea>
+			<textarea class="form-control summernote" rows="5" id="content">${board.content}</textarea>
 		</div>
 
 	</form>
-	<button id="btn-save" class="btn btn-primary">Submit</button>
+	<button id="btn-update" class="btn btn-primary">Submit</button>
 </div>
 
 <script>
 	$('.summernote').summernote({
-		placeholder : 'Enter content',
 		tabsize : 2,
 		height : 300
 	});
