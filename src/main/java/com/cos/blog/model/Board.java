@@ -3,6 +3,7 @@ package com.cos.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,10 +56,11 @@ public class Board {
 	// DB는 Object를 저장할 수 없기 때문에 foreign key를 사용하지만 Java는 가능
 	// ORM을 사용하면 Object를 이용해 foreign key를 생성(userId)
 	
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)	
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)	
 	// mappedBy : 연관관계의 주인이 아니다.(FK가 아니다.) 따라서 table에 컬럼을 따로 만들지 말라는 뜻
 	// board를 select할 대 Join을 해서 데이터를 얻기 위해 존재하는 객체
 	// board = Reply에 있는 객체 명(private Board board)
+	// cascade = CascadeType.REMOVE : board 게시글을 지울 때 관련된 reply를 모두 삭제한다.
 	@JsonIgnoreProperties({"board", "user"})	// 호출된 reply에서 다시 board를 호출하지 않게 한다.(무한참조 방지)
 	@OrderBy("createDate desc")
 	private List<Reply> replys;	// 하나의 게시글에는 여러 개의 댓글을 포함하고 있다.

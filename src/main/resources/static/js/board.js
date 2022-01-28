@@ -76,20 +76,34 @@ let index = {
 	},
 	
 	replySave: function() {
-		// alert('user의 save함수 호출됨');
 		let data = {
+			userId: $("#userId").val(),
+			boardId: $("#boardId").val(),
 			content: $("#reply-content").val()
 		};
-		let boardId = $("#boardId").val();
 
 		$.ajax({
 			type: "POST",
-			url: `/api/board/${boardId}/reply`,
+			url: `/api/board/${data.boardId}/reply`,
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",	
 			dataType: "json"	
 		}).done(function(resp) {
 			alert("댓글 작성이 완료되었습니다. ");
+			location.href = `/board/${data.boardId}`;
+		}).fail(function(error) {
+			alert(JSON.stringify(error));
+		});	
+
+	},
+	
+	replyDelete: function(boardId, replyId) {
+		$.ajax({
+			type: "DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			dataType: "json"	
+		}).done(function(resp) {
+			alert("댓글 삭제가 완료되었습니다. ");
 			location.href = `/board/${boardId}`;
 		}).fail(function(error) {
 			alert(JSON.stringify(error));

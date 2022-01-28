@@ -7,7 +7,7 @@ let index = {
 		// $("#btn-login").on("click", () => {	
 		// 	this.login();
 		// });
-		$("#btn-update").on("click", () => {	
+		$("#btn-update").on("click", () => {
 			this.update();
 		});
 	},
@@ -31,19 +31,24 @@ let index = {
 			dataType: "json"		// 요청에 대한 서버의 응답(String)의 형태가 json이라면 javascript Object로 변환
 			// 회원가입 수행 요청
 		}).done(function(resp) {
-			alert("회원가입이 완료되었습니다. ");
-			console.log(resp);
-			location.href = "/login";
+			if (resp.status == 500) {
+				alert("회원가입에 실패하였습니다. ");
+			} else {
+				alert("회원가입이 완료되었습니다. ");
+				location.href = "/auth/loginForm";
+
+			}
+
 		}).fail(function(error) {
 			alert(JSON.stringify(error));
 		});	// ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청
 
 	},
-	
+
 	update: function() {
 		let data = {
-			id:$("#id").val(),
-			username : $("#username").val(),
+			id: $("#id").val(),
+			username: $("#username").val(),
 			password: $("#password").val(),
 			email: $("#email").val()
 		};
@@ -51,43 +56,43 @@ let index = {
 		$.ajax({
 			type: "PUT",
 			url: "/user",
-			data: JSON.stringify(data),	
-			contentType: "application/json; charset=utf-8",	
-			dataType: "json"	
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json"
 		}).done(function(resp) {
 			alert("회원수정이 완료되었습니다. ");
 			console.log(resp);
 			location.href = "/";
 		}).fail(function(error) {
 			alert(JSON.stringify(error));
-		});	
-
-	},
-	
-/*
-	login: function() {
-		// alert('user의 save함수 호출됨');
-		let data = {
-			username: $("#username").val(),
-			password: $("#password").val()
-		};
-		
-		$.ajax({
-			type: "POST",
-			url: "/api/user/login",
-			data: JSON.stringify(data),	// http body 데이터
-			contentType: "application/json; charset=utf-8",	// body 데이터의 타입(MIME)
-			dataType: "json"	
-		}).done(function(resp) {
-			alert("로그인이 완료되었습니다. ");
-			console.log(resp);
-			location.href = "/";
-		}).fail(function(error) {
-			alert(JSON.stringify(error));
 		});
 
-	}
-*/
+	},
+
+	/*
+		login: function() {
+			// alert('user의 save함수 호출됨');
+			let data = {
+				username: $("#username").val(),
+				password: $("#password").val()
+			};
+			
+			$.ajax({
+				type: "POST",
+				url: "/api/user/login",
+				data: JSON.stringify(data),	// http body 데이터
+				contentType: "application/json; charset=utf-8",	// body 데이터의 타입(MIME)
+				dataType: "json"	
+			}).done(function(resp) {
+				alert("로그인이 완료되었습니다. ");
+				console.log(resp);
+				location.href = "/";
+			}).fail(function(error) {
+				alert(JSON.stringify(error));
+			});
+	
+		}
+	*/
 }
 
 index.init();

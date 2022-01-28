@@ -8,20 +8,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Board;
 import com.cos.blog.model.Reply;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.ReplyRepository;
+import com.cos.blog.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service		
+@RequiredArgsConstructor	// 생성자를 호출할 때 필요한 파라미터를 채워 초기화 시키라는 의미(@Autowired 생략 가능)
 public class BoardService {
 
-	@Autowired
-	private BoardRepository boardRepository;
-	
-	@Autowired
-	private ReplyRepository replyRepository;
+	private final BoardRepository boardRepository;
+
+	private final ReplyRepository replyRepository;
 	
 	@Transactional	
 	public void saveContent(Board board, User user) {	// title, content
@@ -60,16 +63,28 @@ public class BoardService {
 	}
 	
 	@Transactional
-	public void saveReply(User user, int boardId, Reply requestReply) {
+	public void saveReply(ReplySaveRequestDto replySaveRequestDto) {	// Dto를 사용하면 data의 운반과 관리가 편리하다.
+
+		replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
 		
-		Board board = boardRepository.findById(boardId).orElseThrow(()->{
-					return new IllegalArgumentException("댓글 작성 실패 : 해당 글을 찾을 수 없습니다.");
-				});
+//		System.out.println(reply); -> 오브젝트를 출력하게 되면 자동으로 toString()이 호출된다.
 		
-		requestReply.setUser(user);
-		requestReply.setBoard(board);
-		
-		replyRepository.save(requestReply);
+//		User user = userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(()->{
+//			return new IllegalArgumentException("댓글 작성 실패 : 해당 유저를 찾을 수 없습니다.");
+//		});
+//		Board board = boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
+//					return new IllegalArgumentException("댓글 작성 실패 : 해당 글을 찾을 수 없습니다.");
+//				});
+//		
+//		Reply reply = new Reply();
+//		reply.update(user, board, replySaveRequestDto.getContent());
+//		
+//		replyRepository.save(reply);
+	}
+	
+	@Transactional
+	public void deleteReply(int replyId) {
+		replyRepository.deleteById(replyId);
 	}
 	
 }
